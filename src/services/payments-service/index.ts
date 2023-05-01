@@ -26,11 +26,11 @@ async function getPaymentByTicketId(userId: number, ticketId: number) {
 async function paymentProcess(ticketId: number, userId: number, cardData: CardPaymentParams) {
   await verifyTicketAndEnrollment(ticketId, userId);
 
-  const ticket = await ticketsRepository.findTickeWithTypeById(ticketId);
+  const ticketType = await ticketsRepository.findTickeWithTypeById(ticketId);
 
   const paymentData: PaymentParams = {
     ticketId,
-    value: ticket.TicketType.price,
+    value: ticketType.price,
     cardIssuer: cardData.issuer,
     cardLastDigits: cardData.number.toString().slice(-4),
   };

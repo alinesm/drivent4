@@ -6,8 +6,21 @@ export function handleApplicationErrors(
   err: ApplicationError | Error,
   _req: Request,
   res: Response,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   _next: NextFunction,
 ) {
+  if (err.name === 'ForbiddenError') {
+    return res.status(httpStatus.FORBIDDEN).send({
+      message: err.message,
+    });
+  }
+
+  if (err.name === 'PaymentRequiredError') {
+    return res.status(httpStatus.PAYMENT_REQUIRED).send({
+      message: err.message,
+    });
+  }
+
   if (err.name === 'CannotEnrollBeforeStartDateError') {
     return res.status(httpStatus.BAD_REQUEST).send({
       message: err.message,
